@@ -1,11 +1,11 @@
 name 'gitea'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
-license 'All Rights Reserved'
+maintainer 'Maciej Lewkowicz'
+maintainer_email 'lewkowicz@tuta.io'
+license 'MIT'
 description 'Installs/Configures gitea'
 version '0.1.0'
 chef_version '>= 15.0'
-
+depends 'ark'
 # The `issues_url` points to the location where issues for this cookbook are
 # tracked.  A `View Issues` link will be displayed on this cookbook's page when
 # uploaded to a Supermarket.

@@ -29,4 +29,8 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/default
-    attributes:
+  - name: server
+    named_run_list: server
+    verifier:
+      inspec_tests:
+        - test/integration/server
