@@ -1,4 +1,3 @@
 # gitea
 
-TODO: Enter the cookbook description here.
-
+Gitea server. This cookcbook is for educational purpose
