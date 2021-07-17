@@ -4,11 +4,20 @@
 #
 # Copyright:: 2021, The Authors, All Rights Reserved.
 
-package %w(git inxi)
+package %w(git inxi sqlite)
+
+group 'git' do
+  system true
+  action :create
+end
 
 user 'git' do
+  comment 'Gitea server user'
   home '/home/git'
+  group 'git'
   shell '/bin/bash'
+  system true
+  action :create
 end
 
 directory '/var/lib/gitea' do
@@ -77,9 +86,9 @@ WantedBy=multi-user.target
 end
 
 systemd_unit 'gitea.service' do
-  action [:enable :start]
+  action [:enable, :start]
 end
 
 execute 'gitea' do
-  command '/usr/local/bin/gitea web -c /etc/gitea/app.ini'
+  command '/usr/local/bin/gitea web -c /etc/gitea/app.ini &'
 end
