@@ -22,3 +22,21 @@ end
 describe package('inxi') do
   it { should be_installed }
 end
+
+describe group('git') do
+  it { should exist }
+end
+
+describe user('git') do
+  it { should exist }
+end
+
+describe service('gitea') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe os_env('$GITEA_WORK_DIR') do
+  its('content') { should eq '/var/lib/gitea' }
+end
