@@ -4,7 +4,9 @@
 #
 # Copyright:: 2021, The Authors, All Rights Reserved.
 
-package %w(git inxi sqlite)
+package %w(git inxi sqlite nginx)
+
+# GITEA CREATION AND CONFIG
 
 group 'git' do
   system true
@@ -101,4 +103,35 @@ end
 
 execute 'gitea' do
   command '/usr/local/bin/gitea web -c /etc/gitea/app.ini &'
+end
+
+# NGINX CONFIG
+
+execute 'ngnix-unlink' do
+  command 'unlink /etc/ngnix/sites-enabled/default'
+end
+
+file '/etc/ngnix/sites-available/reverse-proxy' do
+  content <<~EOU
+server {
+        listen 80;
+        listen [::]:80;
+        server_name gitea.example.com;
+
+        access_log /var/log/nginx/reverse-access.log;
+        error_log /var/log/nginx/reverse-error.log;
+
+        location / {
+                    proxy_pass http://127.0.0.1:3000;
+  }
+}
+EOU
+end
+
+execute 'link-ngnix' do
+  command 'ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf'
+end
+
+systemd_unit 'ngnix.service' do
+  action :restart
 end
