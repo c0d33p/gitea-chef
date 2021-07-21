@@ -37,6 +37,6 @@ describe service('gitea') do
   it { should be_running }
 end
 
-describe os_env('$GITEA_WORK_DIR') do
-  its('content') { should eq '/var/lib/gitea' }
+describe command('sudo runuser -l git -c "echo -n $GITEA_WORK_DIR"') do
+  its('stdout') { should eq '/var/lib/gitea/' }
 end
